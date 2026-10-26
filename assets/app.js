@@ -198,6 +198,7 @@
     '      <div class="field">',
     '        <label class="field-label" for="size"><span>Tamaño</span><span class="val" id="sizeV"></span></label>',
     '        <input type="range" id="size" min="12" max="90" step="1">',
+    '        <p class="hint">Se ajusta a la medida del lienzo, así que el mismo valor se ve igual en cualquier formato o foto.</p>',
     '      </div>',
     '      <div class="field">',
     '        <label class="field-label" for="irregular"><span>Irregularidad</span><span class="val" id="irregularV"></span></label>',
@@ -350,14 +351,26 @@
     };
   }
 
+  /* Tamaño de pieza y junta se definen sobre un lienzo de referencia de
+     1080 px y se ajustan a la medida real del lienzo. Si fueran píxeles
+     absolutos, el mismo valor daría piezas enormes en una foto chica y
+     diminutas en una grande, y cambiaría también entre Cuadrado e Historia.
+     Así, 8 se ve igual de fino en cualquier foto y en cualquier formato. */
+  var SIZE_REF = 1080;
+
+  function pieceScale(W, H) {
+    return Math.max(W, H) / SIZE_REF;
+  }
+
   function pieces(W, H) {
+    var k = pieceScale(W, H);
     var key = [W, H, state.seed, state.size, state.irregular, state.grout].join('|');
     if (cache.key !== key) {
       cache.pieces = Trencadis.buildPieces(W, H, {
         seed: state.seed,
-        size: state.size,
+        size: state.size * k,
         irregular: state.irregular,
-        grout: state.grout
+        grout: state.grout * k
       });
       cache.key = key;
     }
@@ -382,13 +395,13 @@
     }
   }
 
-  function lookOpts() {
+  function lookOpts(W, H) {
     return {
       groutColor: state.groutColor,
       variation: state.variation,
       round: state.round,
       glaze: state.glaze,
-      size: state.size
+      size: state.size * pieceScale(W, H)
     };
   }
 
@@ -420,7 +433,7 @@
       canvas.width = cw;
       canvas.height = ch;
     }
-    Trencadis.paint(ctx, list, out.w, out.h, lookOpts(), cw / out.w);
+    Trencadis.paint(ctx, list, out.w, out.h, lookOpts(out.w, out.h), cw / out.w);
 
     var medida = out.w + ' × ' + out.h + ' px';
     if (out.photo && out.photo.reduced) {
@@ -955,7 +968,7 @@
         var c = document.createElement('canvas');
         c.width = ex.w;
         c.height = ex.h;
-        Trencadis.paint(c.getContext('2d'), list, base.w, base.h, lookOpts(), ex.w / base.w);
+        Trencadis.paint(c.getContext('2d'), list, base.w, base.h, lookOpts(base.w, base.h), ex.w / base.w);
         setProgress(66, 'Guardando el PNG…');
         creep(66, 94, 8000);
         return nextFrame().then(function () { return c; });

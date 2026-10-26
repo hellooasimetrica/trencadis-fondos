@@ -58,6 +58,12 @@ Dos detalles que sostienen los requerimientos del PRD:
   formato). Mover colores, dirección, dispersión, tono, bordes o brillo solo
   repinta. En el peor caso (1920×1080 con piezas de 12 px, casi 17 000 piezas)
   la geometría tarda ~170 ms y la pintura otros ~170 ms.
+- **Un mismo valor, el mismo resultado.** El tamaño de pieza y el grosor de
+  junta se definen sobre un lienzo de referencia de 1080 px y se ajustan a la
+  medida real del lienzo (`pieceScale`). En píxeles absolutos, 8 daba piezas
+  grandes en una foto de 690 px y diminutas en una de 2400, y cambiaba también
+  entre Cuadrado e Historia. Con el ajuste, 8 da el mismo mosaico en cualquier
+  foto: 21 352 piezas tanto en 690 × 690 como en 2400 × 2400.
 - **Calidad de salida.** La vista previa se pinta a la resolución de la
   pantalla; el PNG se pinta aparte en la medida exacta del formato. Es el
   mismo mosaico porque la geometría se calcula en píxeles de salida.
