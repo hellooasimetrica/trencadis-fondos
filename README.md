@@ -64,6 +64,13 @@ Dos detalles que sostienen los requerimientos del PRD:
   grandes en una foto de 690 px y diminutas en una de 2400, y cambiaba también
   entre Cuadrado e Historia. Con el ajuste, 8 da el mismo mosaico en cualquier
   foto: 21 352 piezas tanto en 690 × 690 como en 2400 × 2400.
+- **Piezas muy chicas.** En modo Foto el tamaño baja hasta 2, que son más de
+  300 000 piezas y unos segundos de dibujo. Para que eso no trabe la página,
+  los controles que rehacen la geometría (tamaño, irregularidad, junta)
+  esperan a que la mano se detenga y avisan "Dibujando el mosaico…"; los de
+  color siguen siendo instantáneos. La junta además se limita al 45% del
+  tamaño de pieza: si no, una junta de 2.5 px sobre piezas de 2 px dejaría el
+  lienzo liso.
 - **Calidad de salida.** La vista previa se pinta a la resolución de la
   pantalla; el PNG se pinta aparte en la medida exacta del formato. Es el
   mismo mosaico porque la geometría se calcula en píxeles de salida.
