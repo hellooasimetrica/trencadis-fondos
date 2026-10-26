@@ -51,7 +51,7 @@
 
   var MIN_COLORS = 2, MAX_COLORS = 5;
   var MAX_SIDE = 2400;          // las fotos grandes se reducen a este lado mayor
-  var MIN_PIECE = { gradient: 12, photo: 2 };
+  var MIN_PIECE = { gradient: 12, photo: 8 };
 
   // El control de saturación se quitó de la interfaz: no hacía nada con "Mi
   // paleta", porque ahí el color lo pone la paleta y no la foto. El motor lo
@@ -364,16 +364,13 @@
 
   function pieces(W, H) {
     var k = pieceScale(W, H);
-    // La junta nunca se come la pieza: con piezas de 2 px, una junta de 2.5
-    // dejaría el lienzo liso. Se limita a poco menos de la mitad de la pieza.
-    var grout = Math.min(state.grout, state.size * 0.45);
     var key = [W, H, state.seed, state.size, state.irregular, state.grout].join('|');
     if (cache.key !== key) {
       cache.pieces = Trencadis.buildPieces(W, H, {
         seed: state.seed,
         size: state.size * k,
         irregular: state.irregular,
-        grout: grout * k
+        grout: state.grout * k
       });
       cache.key = key;
     }
@@ -424,10 +421,7 @@
     return scale;
   }
 
-  var lastDrawMs = 0;
-
   function draw() {
-    var t0 = performance.now();
     var out = outputSize();
     var list = pieces(out.w, out.h);
     colorize(list, out.w, out.h);
@@ -451,7 +445,6 @@
       (state.mode === 'photo' && !state.img ? '<span class="tag">Imagen de ejemplo</span>' : '');
 
     updateResHint();
-    lastDrawMs = performance.now() - t0;
   }
 
   function updateResHint() {
@@ -466,25 +459,6 @@
     if (queued) return;
     queued = true;
     requestAnimationFrame(function () { queued = false; draw(); });
-  }
-
-  /* Con piezas muy chicas (el mínimo de 2 pasa de 300 000 piezas) cada dibujo
-     tarda segundos, y rehacerlo en cada movimiento del control dejaría la
-     página trabada. Los controles que cambian la geometría esperan a que la
-     mano se detenga; mientras tanto, el pie del lienzo avisa que está
-     dibujando. Los que solo cambian el color siguen siendo instantáneos. */
-  var GEOMETRY_SLIDERS = { size: true, irregular: true, grout: true };
-  var geomTimer = null;
-
-  function scheduleGeometry() {
-    clearTimeout(geomTimer);
-    if (lastDrawMs > 250) {
-      $('meta').innerHTML = '<span class="tag">Dibujando el mosaico…</span>';
-    }
-    geomTimer = setTimeout(function () {
-      // Dos saltos para que el aviso alcance a pintarse antes del trabajo duro.
-      requestAnimationFrame(function () { setTimeout(draw, 0); });
-    }, 170);
   }
 
   /* ---------- Estado de la imagen ----------
@@ -727,8 +701,7 @@
     el.addEventListener('input', function () {
       state[key] = parseFloat(el.value);
       syncSlider(key);
-      if (GEOMETRY_SLIDERS[key]) scheduleGeometry();
-      else schedule();
+      schedule();
     });
   });
 

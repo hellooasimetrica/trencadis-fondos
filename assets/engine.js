@@ -103,7 +103,7 @@
      Devuelve un arreglo de piezas: { poly, pts, gx, gy, n, lab } */
   function buildPieces(W, H, geom) {
     const rand = mulberry32(geom.seed | 0);
-    const s = Math.max(1.5, geom.size);   // piso de seguridad: por debajo son millones de piezas
+    const s = Math.max(4, geom.size);
     const irr = clamp(geom.irregular, 0, 100) / 100;
     const rowH = s * 0.866;                       // retícula hexagonal de partida
     const cols = Math.ceil(W / s) + 3;
