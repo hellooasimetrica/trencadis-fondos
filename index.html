@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TRENCADÍS Fondos</title>
+<meta name="description" content="Crea fondos de degradado en mosaico trencadís y descárgalos en PNG.">
+<meta name="theme-color" content="#f5f1eb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Unbounded:wght@500&display=swap">
+<link rel="stylesheet" href="./assets/tokens.css">
+<link rel="stylesheet" href="./assets/app.css">
+<style>
+  /* El contenido se mantiene fuera de las barras del sistema en celular. */
+  :root {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app"></div>
+
+<noscript>
+  <p style="padding:24px;font-family:system-ui,sans-serif">
+    TRENCADÍS Fondos dibuja el mosaico en tu navegador, así que necesita
+    JavaScript activado.
+  </p>
+</noscript>
+
+<script src="./assets/engine.js"></script>
+<script src="./assets/lottie-perrito.js"></script>
+<script src="./assets/app.js"></script>
+</body>
+</html>

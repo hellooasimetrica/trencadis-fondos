@@ -1,0 +1,79 @@
+/* Tokens de TRENCADÍS · copiados del design system de la marca (project/tokens.json).
+   No inventar valores aquí: si la marca cambia, se vuelve a copiar desde el design system.
+   Un solo tema ("Claro"), igual que el design system. */
+
+:root {
+  color-scheme: light;
+
+  /* Pasos de marca usados en esta app */
+  --terracota-50:  #fff4f1;
+  --terracota-100: #ffe7df;
+  --terracota-200: #ffccbc;
+  --terracota-300: #f4ab93;
+  --terracota-400: #e4896c;
+  --terracota-600: #b85a3c;
+  --terracota-700: #924025;
+  --terracota-900: #4f1b09;
+
+  --piedra-50:  #f5f1eb;
+  --piedra-100: #f1ece6;
+  --piedra-200: #ddd8d2;
+  --piedra-300: #c4beb9;
+  --piedra-400: #a9a49e;
+  --piedra-500: #8f8a84;
+  --piedra-700: #605b56;
+  --piedra-900: #322d27;
+
+  --azul-50:  #eff8ff;
+  --azul-700: #0f638d;
+  --azul-800: #004b6d;
+
+  --verde-50:  #eff9f7;
+  --verde-700: #056b5e;
+
+  --rojo-50:  #fff4f3;
+  --rojo-600: #ca3040;
+  --rojo-700: #b3122e;
+
+  /* Roles de interfaz */
+  --surface: var(--piedra-50);
+  --surface-raised: #ffffff;
+  --surface-sunken: var(--piedra-100);
+  --surface-luminous: var(--terracota-50);
+
+  --ink: var(--piedra-900);
+  --ink-muted: var(--piedra-700);
+
+  --border-subtle: var(--piedra-200);
+  --border-control: var(--piedra-500);
+
+  --primary: var(--terracota-400);
+  --primary-hover: var(--terracota-300);
+  --on-primary: var(--terracota-900);
+  --brand-text: var(--terracota-700);
+
+  --link: var(--azul-700);
+  --focus-ring: var(--azul-700);
+
+  --info: var(--azul-800);
+  --info-surface: var(--azul-50);
+  --success: var(--verde-700);
+  --success-surface: var(--verde-50);
+  --danger: var(--rojo-700);
+  --danger-surface: var(--rojo-50);
+
+  /* Tipografía */
+  --font-display: "Unbounded", "Geist", system-ui, sans-serif;
+  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+
+  /* Espaciado: retícula de 8px */
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-10: 40px;
+
+  /* Radios */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
