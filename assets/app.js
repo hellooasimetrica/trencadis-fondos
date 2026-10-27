@@ -51,7 +51,7 @@
 
   var MIN_COLORS = 2, MAX_COLORS = 5;
   var MAX_SIDE = 2400;          // las fotos grandes se reducen a este lado mayor
-  var MIN_PIECE = { gradient: 12, photo: 8 };
+  var MIN_PIECE = { gradient: 12, solid: 12, photo: 8 };
 
   // El control de saturación se quitó de la interfaz: no hacía nada con "Mi
   // paleta", porque ahí el color lo pone la paleta y no la foto. El motor lo
@@ -71,6 +71,7 @@
     glaze: true,
     grout: 2.5,
     groutColor: '#F5F1EB',
+    solid: '#E4896C',
     format: 'square',
     resolution: 'base',
     seed: 48213,
@@ -97,15 +98,16 @@
     '        </h1>',
     '        <span class="chip">Fondos</span>',
     '      </div>',
-    '      <p class="tagline">Mosaicos de degradado o de tu propia foto.</p>',
+    '      <p class="tagline">Mosaicos de degradado, de un color o de tu propia foto.</p>',
     '    </div>',
 
     '    <div class="seg keep-row modes" id="mode" role="group" aria-label="Modo">',
     '      <button type="button" data-v="gradient">Degradado</button>',
+    '      <button type="button" data-v="solid">Color sólido</button>',
     '      <button type="button" data-v="photo">Foto</button>',
     '    </div>',
 
-    '    <section class="group" data-mode="gradient" aria-labelledby="h-formato">',
+    '    <section class="group" data-mode="gradient solid" aria-labelledby="h-formato">',
     '      <h2 id="h-formato">Formato</h2>',
     '      <div class="seg keep-row" id="format" role="group" aria-labelledby="h-formato">',
     '        <button type="button" data-v="square">Cuadrado</button>',
@@ -163,6 +165,15 @@
     '        <button type="button" data-v="8k">8K</button>',
     '      </div>',
     '      <p class="hint" id="resHint"></p>',
+    '    </section>',
+
+    '    <section class="group" data-mode="solid" aria-labelledby="h-solido">',
+    '      <h2 id="h-solido">Color</h2>',
+    '      <div class="color-row solo">',
+    '        <input type="color" id="solidPick" aria-label="Color del fondo">',
+    '        <input type="text" class="hex" id="solidHex" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código del color del fondo">',
+    '      </div>',
+    '      <p class="hint">Un solo color para todo el fondo. La variación de tono y el brillo le dan la textura de cerámica.</p>',
     '    </section>',
 
     '    <section class="group" id="colorsGroup" aria-labelledby="h-colores">',
@@ -378,7 +389,9 @@
   }
 
   function colorize(list, W, H) {
-    if (state.mode === 'photo') {
+    if (state.mode === 'solid') {
+      Trencadis.colorFromSolid(list, W, H, { color: state.solid });
+    } else if (state.mode === 'photo') {
       Trencadis.colorFromPhoto(list, W, H, {
         data: photoData(W, H),
         contrast: state.contrast,
@@ -501,12 +514,14 @@
   function syncMode() {
     var photo = state.mode === 'photo';
 
+    // Un grupo puede pertenecer a varios modos: data-mode="gradient solid".
     Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (el) {
-      el.hidden = el.dataset.mode !== state.mode;
+      el.hidden = el.dataset.mode.split(' ').indexOf(state.mode) === -1;
     });
 
-    // En modo Foto la paleta solo importa si las piezas la usan.
-    $('colorsGroup').hidden = photo && state.colorMode !== 'palette';
+    // La paleta de varios colores no aplica en Color sólido, y en Foto solo
+    // importa si las piezas la usan.
+    $('colorsGroup').hidden = state.mode === 'solid' || (photo && state.colorMode !== 'palette');
     $('paletteHint').hidden = state.colorMode !== 'palette';
     renderUpload();
 
@@ -716,6 +731,41 @@
     state.groutColor = e.target.value;
     schedule();
   });
+
+  /* ---------- Color sólido ---------- */
+
+  (function () {
+    var pick = $('solidPick');
+    var hex = $('solidHex');
+
+    pick.value = state.solid;
+    hex.value = state.solid.toUpperCase();
+
+    pick.addEventListener('input', function () {
+      state.solid = pick.value;
+      hex.value = pick.value.toUpperCase();
+      hex.removeAttribute('aria-invalid');
+      schedule();
+    });
+
+    hex.addEventListener('input', function () {
+      var v = hex.value.trim();
+      if (v && v[0] !== '#') v = '#' + v;
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+        state.solid = v;
+        pick.value = v;
+        hex.removeAttribute('aria-invalid');
+        schedule();
+      } else {
+        hex.setAttribute('aria-invalid', 'true');
+      }
+    });
+
+    hex.addEventListener('blur', function () {
+      hex.value = state.solid.toUpperCase();
+      hex.removeAttribute('aria-invalid');
+    });
+  })();
 
   /* ---------- Avisos ---------- */
 

@@ -189,6 +189,16 @@
     }
   }
 
+  /* ---------- Fuente de color · un solo color ----------
+     Todas las piezas parten del mismo color. La textura no viene del color
+     sino de la variación de tono, el brillo y la junta, igual que en un
+     mosaico real de una sola pieza de cerámica.
+     solid: { color: '#rrggbb' } */
+  function colorFromSolid(pieces, W, H, solid) {
+    var lab = rgbToOklab(hexToRgb(solid.color));
+    for (var i = 0; i < pieces.length; i++) pieces[i].lab = lab.slice();
+  }
+
   /* ---------- Fuente de color · Fase 2: foto ----------
      photo: {
        data,        // píxeles RGBA de la foto ya dibujada en W × H
@@ -318,6 +328,7 @@
   global.Trencadis = {
     buildPieces: buildPieces,
     colorFromGradient: colorFromGradient,
+    colorFromSolid: colorFromSolid,
     colorFromPhoto: colorFromPhoto,
     paint: paint,
     utils: {

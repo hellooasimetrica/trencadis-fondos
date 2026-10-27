@@ -345,6 +345,9 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
 }
 
+/* El color del modo sólido no se puede quitar: no lleva la tercera columna. */
+.color-row.solo { grid-template-columns: 38px minmax(0, 1fr); }
+
 input[type="color"] {
   width: 38px;
   height: 34px;

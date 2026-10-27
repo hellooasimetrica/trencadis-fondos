@@ -1,8 +1,8 @@
 # TRENCADÍS Fondos · Fases 1 y 2
 
-Mosaicos trencadís en dos modos: **Degradado** (Fase 1), que arma el fondo a
-partir de una paleta, y **Foto** (Fase 2), que convierte una imagen en
-mosaico. Todo ocurre en el navegador: no hay servidor, ni base de datos, ni
+Mosaicos trencadís en tres modos: **Degradado** (Fase 1), que arma el fondo a
+partir de una paleta; **Color sólido**, el mismo mosaico en un solo color; y
+**Foto** (Fase 2), que convierte una imagen en mosaico. Todo ocurre en el navegador: no hay servidor, ni base de datos, ni
 cuentas, y la imagen nunca sale del dispositivo de la persona.
 
 ## Archivos
@@ -39,6 +39,8 @@ const piezas = Trencadis.buildPieces(W, H, { seed, size, irregular, grout });
 
 // Fase 1 · el color sale de la paleta
 Trencadis.colorFromGradient(piezas, W, H, { colors, dir, dispersion });
+// Un solo color
+Trencadis.colorFromSolid(piezas, W, H, { color });
 // Fase 2 · el color sale de la foto
 Trencadis.colorFromPhoto(piezas, W, H, { data, contrast, saturation, colorMode, colors });
 
