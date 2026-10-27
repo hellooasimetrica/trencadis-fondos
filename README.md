@@ -11,6 +11,7 @@ cuentas, y la imagen nunca sale del dispositivo de la persona.
 | --- | --- |
 | `index.html` | La página que se publica en GitHub Pages |
 | `page.html` | La misma app como vista previa compartible (artifact) |
+| `assets/logo-trencadis.png` | El logotipo de la marca |
 | `assets/tokens.css` | Tokens copiados del design system de TRENCADÍS |
 | `assets/app.css` | Interfaz: estructura, controles, lienzo |
 | `assets/engine.js` | El motor: rompe el lienzo en piezas y las pinta |
@@ -104,7 +105,12 @@ Los valores de color, tipografía, espaciado y radios salen del design system
 de la marca y están copiados en `assets/tokens.css`. Si la marca cambia, se
 vuelven a copiar desde ahí en lugar de editarlos a mano.
 
-El design system todavía no incluye archivos de logotipo ni isotipo, así que
-la app usa el nombre en Unbounded con una marca de cuatro teselas como
-provisional. Cuando el logotipo esté en el design system, se reemplaza en
-`.wordmark` (`assets/app.css` y el marcado de `assets/app.js`).
+El logotipo es `assets/logo-trencadis.png` (250 × 36, fondo transparente),
+el que entregó Aneth. Se muestra a 24 px de alto para que se vea nítido en
+pantallas de alta densidad. Para cambiarlo basta reemplazar ese archivo; si
+cambia de medida, hay que ajustar `width`/`height` en el marcado de
+`assets/app.js`.
+
+Unbounded ya no se carga: el logotipo es una imagen y ningún otro texto la
+usaba. El token `--font-display` sigue documentado en `tokens.css`, pero si
+vuelve a hacer falta hay que agregar la fuente al `<link>` de Google Fonts.

@@ -63,6 +63,9 @@
   --danger-surface: var(--rojo-50);
 
   /* Tipografía */
+  /* Unbounded ya no se carga: el logotipo es una imagen y la app no tiene
+     otro titular que la use. Si vuelve a hacer falta, hay que agregarla al
+     <link> de Google Fonts del HTML. */
   --font-display: "Unbounded", "Geist", system-ui, sans-serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
 

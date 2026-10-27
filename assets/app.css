@@ -76,33 +76,20 @@ body {
   flex-wrap: wrap;
 }
 
+/* El logotipo de la marca. Se muestra a 24 px de alto sobre un archivo de 36,
+   para que se vea nítido también en pantallas de alta densidad. */
 .wordmark {
   display: flex;
   align-items: center;
-  gap: 10px;
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 23px;
-  line-height: 30px;
-  letter-spacing: -0.3px;
-  color: var(--ink);
+  min-width: 0;
 }
-
-/* Isotipo provisional: cuatro teselas. El design system de la marca todavía
-   no trae archivos de logotipo, así que aquí va una marca tipográfica. */
-.isotipo {
-  flex: none;
-  display: grid;
-  grid-template-columns: repeat(2, 9px);
-  grid-template-rows: repeat(2, 9px);
-  gap: 2px;
+.wordmark img {
+  display: block;
+  height: 24px;
+  width: auto;
+  max-width: 100%;
 }
-.isotipo i { border-radius: 1px; display: block; }
-.isotipo i:nth-child(1) { background: var(--terracota-400); transform: rotate(-6deg); }
-.isotipo i:nth-child(2) { background: var(--azul-700); transform: rotate(4deg); }
-.isotipo i:nth-child(3) { background: var(--verde-700); transform: rotate(8deg); }
-.isotipo i:nth-child(4) { background: var(--terracota-700); transform: rotate(-3deg); }
 
 .tagline { color: var(--ink-muted); font-size: 13px; line-height: 18px; }
 
